@@ -81,7 +81,7 @@ function formatDate(dateStr) {
 function formatCurrency(amount) {
   return new Intl.NumberFormat(undefined, {
     style: 'currency',
-    currency: 'USD',
+    currency: 'INR',
   }).format(amount);
 }
 

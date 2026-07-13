@@ -42,20 +42,20 @@ function BudgetStatus({ budget }) {
   return (
     <div style={styles.container} aria-label={`Budget status: ${totalSpending} of ${limitAmount} spent`}>
       <div style={styles.labelRow}>
-        <span>Spent: ${Number(totalSpending).toFixed(2)}</span>
-        <span>Limit: ${Number(limitAmount).toFixed(2)}</span>
+      <span>Spent: {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(totalSpending)}</span>
+      <span>Limit: {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(limitAmount)}</span>
       </div>
       <div style={styles.progressBar} role="progressbar" aria-valuenow={percent} aria-valuemin={0} aria-valuemax={100}>
         <div style={fillStyle} />
       </div>
       {overspent && (
         <p style={styles.overspentText}>
-          Overspent by ${Number(overspentAmount).toFixed(2)}
+          Overspent by {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(overspentAmount)}
         </p>
       )}
       {!overspent && (
         <div style={{ ...styles.labelRow, color: '#10b981' }}>
-          <span>Remaining: ${Number(remainingAmount).toFixed(2)}</span>
+          <span>Remaining: {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(remainingAmount)}</span>
         </div>
       )}
     </div>
