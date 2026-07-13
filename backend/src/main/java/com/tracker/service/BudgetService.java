@@ -146,4 +146,16 @@ public class BudgetService {
                     user, TransactionType.EXPENSE, startDate, endDate);
         }
     }
+
+    public void deleteBudget(User user,Long id) {
+        Budget budget = budgetRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Budget", id));
+
+        if (!budget.getUser().getId().equals(user.getId())) {
+            throw new AccessDeniedException();
+        }
+
+        budgetRepository.delete(budget);
+        cacheService.invalidate(DASHBOARD_CACHE_KEY_PREFIX + user.getId());
+    }
 }

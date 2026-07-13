@@ -105,6 +105,16 @@ const styles = {
     textAlign: 'center',
     padding: '2rem 0',
   },
+  deleteButton: {
+    padding: '0.25rem 0.75rem',
+    fontSize: '0.75rem',
+    fontWeight: 500,
+    color: '#ffffff',
+    backgroundColor: '#ef4444',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+  },
 };
 
 function BudgetList() {
@@ -125,6 +135,17 @@ function BudgetList() {
       setError(err.response?.data?.message || 'Failed to load budgets.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this budget?')) {
+      try {
+        await budgetService.delete(id); // Call the backend delete endpoint
+        setBudgets(budgets.filter((budget) => budget.id !== id)); // Update the state
+      } catch (err) {
+        alert('Failed to delete the budget. Please try again.');
+      }
     }
   };
 
@@ -204,6 +225,9 @@ function BudgetList() {
                 <p style={styles.categoryName}>
                   {budget.categoryName || 'Overall Budget'}
                 </p>
+                <button
+                  style={styles.deleteButton}
+                  onClick={() => handleDelete(budget.id)}>Delete</button>
               </div>
               <BudgetStatus budget={budget} />
             </div>

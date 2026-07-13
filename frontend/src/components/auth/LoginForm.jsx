@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const[showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -14,7 +15,7 @@ function LoginForm() {
 
   function validate() {
     const newErrors = {};
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailPattern =/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (!email.trim()) {
       newErrors.email = 'Email is required';
@@ -24,8 +25,6 @@ function LoginForm() {
 
     if (!password) {
       newErrors.password = 'Password is required';
-    } else if (password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
     }
 
     setErrors(newErrors);
@@ -77,15 +76,32 @@ function LoginForm() {
 
         <div className="form-group">
           <label htmlFor="password">Password</label>
+          <div className="password-wrapper" style={{ position: 'relative' }}>
           <input
             id="password"
-            type="password"
+            type={showPassword ? 'text' : 'password'} // Dynamically set the type
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={loading}
             aria-invalid={!!errors.password}
             aria-describedby={errors.password ? 'password-error' : undefined}
           />
+          {password && (<button
+          type="button"
+              onClick={() => setShowPassword(!showPassword)} // Toggle visibility
+              style={{
+                position: 'absolute',
+                right: '10px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}>
+                {showPassword ? '🙈' : '👁️'}
+          </button>)}
+          </div>
           {errors.password && (
             <span id="password-error" className="error-message">
               {errors.password}

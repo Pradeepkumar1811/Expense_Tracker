@@ -15,6 +15,11 @@ const budgetService = {
     const response = await api.put(`/budgets/${id}`, budget);
     return response.data;
   },
+
+  async delete(id) {
+    const response = await api.delete(`/budgets/${id}`);
+    return response.data;
+  }
 };
 
 export default budgetService;
